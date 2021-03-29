@@ -1,0 +1,12 @@
+{% if session.username %}
+<title> Kuntokerroin - {% block title %}{% endblock %} </title>
+<p>Tervetuloa  {{ session.username }} !</p>
+
+Omat ohjelmasi: {{ count }}
+<hr>
+{% for program in programs %}
+<a href="/program/{{ program[0] }}"> {{ program[1] }} </a>
+<hr>
+{% endfor %}
+<a href="/logout">Kirjaudu ulos</a>
+{% endif %}
