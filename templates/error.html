@@ -1,1 +1,8 @@
 {{ message }}
+{% if session.username %}
+<a href="/login">Palaa etusivulle</a>
+{% endif %}
+
+{% if not session.username %}
+<a href="/">Palaa etusivulle</a>
+{% endif %}

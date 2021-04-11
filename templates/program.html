@@ -1,3 +1,9 @@
+{% if session.username %}
+<h2>{{ headline }}</h2>
+<hr>
 {{ content }}
- 
+<hr>
+<img src="/programpic/{{ id }}">
+<hr>
 <a href="/login">Takaisin</a>
+{% endif %}
