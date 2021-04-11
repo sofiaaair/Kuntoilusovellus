@@ -1,5 +1,19 @@
 <h1> Kuntoilusovellus </h1>
 
+Sovellus löytyy herokusta osoitteesta:
+
+https://kuntokerroin.herokuapp.com/
+
+Sovelluksessa on toteutettuna tällä hetkellä:
+
+* Käyttäjän sisään ja uloskirjaus, tunnuksen luonti
+
+* Käyttäjä näkee listauksen omista kunto-ohjelmista, suoritusominaisuus on kesken
+
+* Ylläpitäjä voi lisätä kunto-ohjelmia
+
+
+
 Sovelluksessa näkyy erilaisia kunto-ohjelmia, joilla voi treenata eri osa-alueita.
 
 Ohjelmissa kirjallisia ja kuvallisia ohjeita eri liikkeistä, joita voi merkitä tehdyiksi ja lisäksi voi merkitä kirjallisesti omia tuloksiaan.
