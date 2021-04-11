@@ -13,6 +13,7 @@ Sovelluksessa on toteutettuna tällä hetkellä:
 * Ylläpitäjä voi lisätä kunto-ohjelmia
 
 
+<h2> Kaikki tulevaisuuden toiminnot </h2>
 
 Sovelluksessa näkyy erilaisia kunto-ohjelmia, joilla voi treenata eri osa-alueita.
 
