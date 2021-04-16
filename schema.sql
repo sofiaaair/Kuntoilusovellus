@@ -2,6 +2,8 @@ CREATE TABLE program (
     id SERIAL PRIMARY KEY,
     headline TEXT,
     content TEXT,
+    reps INTEGER,
+    times INTEGER,
     data BYTEA
 );
 
@@ -16,7 +18,9 @@ CREATE TABLE progress (
     id SERIAL PRIMARY KEY,
     userprogramid INTEGER,
     percent NUMERIC,
-    content TEXT
+    content TEXT,
+    reps INTEGER,
+    times INTEGER
 );
 
 CREATE TABLE user_program (
