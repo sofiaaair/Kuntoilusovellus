@@ -12,6 +12,13 @@ CREATE TABLE users (
     role TEXT
 );
 
+CREATE TABLE progress (
+    id SERIAL PRIMARY KEY,
+    userprogramid INTEGER,
+    percent NUMERIC,
+    content TEXT
+);
+
 CREATE TABLE user_program (
     id SERIAL PRIMARY KEY,
     userid INTEGER references users,
@@ -19,9 +26,4 @@ CREATE TABLE user_program (
     progressid INTEGER references progress
 );
 
-CREATE TABLE progress (
-    id SERIAL PRIMARY KEY,
-    userprogramid INTEGER,
-    percent NUMERIC,
-    content TEXT
-);
+
