@@ -21,7 +21,7 @@ CREATE TABLE user_program (
 
 CREATE TABLE progress (
     id SERIAL PRIMARY KEY,
-    userprogramid INTEGER references user_program,
+    userprogramid INTEGER,
     percent NUMERIC,
     content TEXT
 );
