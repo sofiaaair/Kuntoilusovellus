@@ -93,6 +93,11 @@ def programpic(id):
     response.headers.set("Content-Type","image/jpeg")
     return response
 
+@app.route("/usersprogram/<int:id>")
+def usersprogram(id):
+    #TO DO
+    return render_template("usersprogram.html", id=id, content=content, headline=headline, reps=reps, times=times, percent=percent)
+
 @app.route("/createprogram",methods=["GET","POST"])
 def createprogram():
     if request.method == "GET":
@@ -106,6 +111,9 @@ def createprogram():
         file = request.files["file"]
         headline = request.form["headline"]
         content = request.form["content"]
+        reps = request.form["reps"]
+        sets = request.form["sets"]
+        times = request.form["times"]
         name = file.filename
         if not name.endswith(".jpg"):
             return render_template("error.html", message="Kuvan tulee olla .jpg -muotoa")
