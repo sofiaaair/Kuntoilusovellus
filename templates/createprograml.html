@@ -3,9 +3,29 @@
 <input type="text" name="headline"></p>
 <p>Ohjelman kuvaus:<br>
 <textarea name="content" rows="5", cols="50"></textarea></p>
+<p> Toistojen määrä per sarja:<br>
+<input type="text" name="reps"></p>
+<p> Sarjoja yhteensä treenissä:<br>
+<input type="text" name="sets"</p>
+<p> Treenikertojen määrä:<br>
+<input type="text" name="times"></p>
 <p>Kuva:<br>
 <input type="file" name="file">
 <input type="submit" value="Luo ohjelma">
 <a href="/login">Etusivulle</a>
 </form>
+
+<script>
+function check(form) {
+    if (form.headline.value.length > 100) {
+        alert("Otsikko on liian pitkä");
+        return false;
+    }
+    if (form.content.value.length > 10000) {
+        alert("Kuvaus on liian pitkä");
+        return false;
+    }
+    return true;
+}
+</script>
 
