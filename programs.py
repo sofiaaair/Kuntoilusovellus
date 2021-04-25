@@ -4,10 +4,10 @@ import os
 
 
 
-def createprogram(headline,content,data):
+def createprogram(headline,content,data,reps,times):
     try:
-        sql = "INSERT INTO program (headline, content, data) VALUES (:headline,:content,:data)"
-        db.session.execute(sql, {"headline":headline,"content":content,"data":data})
+        sql = "INSERT INTO program (headline, content, reps, times, data) VALUES (:headline,:content,:reps,:times,:data)"
+        db.session.execute(sql, {"headline":headline,"content":content,"reps":reps,"times":times,"data":data})
         db.session.commit()
     except:
         return False
@@ -56,3 +56,9 @@ def ifexist(id):
         return False
     else:
         return True
+
+def getid(headline, content):
+    sql = "SELECT id FROM program WHERE headline=:headline AND content=:content"
+    result = db.session.execute(sql, {"headline":headline, "content":content})
+    return result.fetchone()[0]
+

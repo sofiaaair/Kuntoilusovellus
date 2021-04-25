@@ -49,3 +49,13 @@ def is_admin():
     if result.fetchone()[0] == 'admin':
         return True
     return False
+
+def returnusernames():
+    sql = "SELECT username FROM users WHERE role=:role"
+    result = db.session.execute(sql, {"role":"user"})
+    return result.fetchall()
+
+def returnid(username):
+    sql = "SELECT id FROM users WHERE username=:username"
+    result = db.session.execute(sql, {"username":username})
+    return result.fetchone()[0]

@@ -1,6 +1,9 @@
 from app import app
 import users
 import programs
+import userprogram
+import progress
+
 from flask import render_template, redirect, request, session, make_response
 
 
@@ -66,8 +69,8 @@ def signupost():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
-        if len(username) < 3 or len(username) > 50:
-            return render_template("error.html", message="Käyttäjätunnuksen on oltava 3-50 pitkä")
+        if len(username) < 3 or len(username) > 20:
+            return render_template("error.html", message="Käyttäjätunnuksen on oltava 3-20 pitkä")
         if len(password) < 6 or len(password) > 20:
             return render_template("error.html", message="Salasanan on oltava 6-20 merkkiä pitkä")
         if users.signuppost(username, password):
@@ -106,22 +109,29 @@ def createprogram():
             allow = True
         if not allow:
             return render_template("error.html", message="Sinulla ei ole oikeutta nähdä sivua")
-        return render_template("createprograml.html")
+        userstosend = users.returnusernames()
+        return render_template("createprograml.html", users=userstosend)
     if request.method == "POST":
         file = request.files["file"]
         headline = request.form["headline"]
         content = request.form["content"]
-        reps = request.form["reps"]
-        sets = request.form["sets"]
+        reps = int(request.form["reps"])*int(request.form["sets"])
         times = request.form["times"]
+        user = request.form["user"]
         name = file.filename
         if not name.endswith(".jpg"):
             return render_template("error.html", message="Kuvan tulee olla .jpg -muotoa")
         data = file.read()
         if len(data) > 100*1024:
             return render_template("error.html", message="Kuva on liian iso")
-        if programs.createprogram(headline,content,data):
-            return redirect("/login")
+        if programs.createprogram(headline,content,data,reps,times):
+            userid = users.returnid(user)
+            programid = programs.getid(headline, content)
+            if userprogram.createuserprogram(userid, programid):
+                userprogramid = userprogram.returnid(userid, programid)
+                if progress.createprogress(userprogramid):
+                    return redirect("/login")
+            return render_template("error.html", message="Virhe lisäyksessä")
         else:
             return render_template("error.html", message="Virhe lisäyksessä")
 
