@@ -13,13 +13,8 @@ def createprogram(headline,content,data,reps,times):
         return False
     return True
 
-def getprograms(userid):
-    sql = "SELECT COUNT(*) FROM user_program WHERE userid=:userid"
-    result = db.session.execute(sql, {"userid":userid})
-    return result.fetchone()[0]
-
 def getheadlines(userid):
-    sql = "SELECT program.headline FROM program JOIN user_program ON program.id = user_program.programid JOIN users ON user_program.userid = users.id WHERE users.id=:userid"
+    sql = "SELECT program.headline, program.id FROM program JOIN user_program ON program.id = user_program.programid WHERE user_program.userid=:userid"
     result = db.session.execute(sql, {"userid":userid})
     return result.fetchall()
 
@@ -60,5 +55,15 @@ def ifexist(id):
 def getid(headline, content):
     sql = "SELECT id FROM program WHERE headline=:headline AND content=:content"
     result = db.session.execute(sql, {"headline":headline, "content":content})
+    return result.fetchone()[0]
+
+def getreps(id):
+    sql = "SELECT reps FROM program WHERE id=:id"
+    result = db.session.execute(sql, {"id":id})
+    return result.fetchone()[0]
+
+def gettimes(id):
+    sql = "SELECT times FROM program WHERE id=:id"
+    result = db.session.execute(sql, {"id":id})
     return result.fetchone()[0]
 

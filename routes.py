@@ -22,17 +22,23 @@ def adminmenu():
     program = programs.getallprograms()
     return render_template("adminmenu.html", count=count, programs=program)
 
-@app.route("/usermenu")
+@app.route("/usermenu", methods=["GET", "POST"])
 def usermenu():
     allow = False
     if users.islogin():
         allow = True
     if not allow:
         return render_template("error.html", message="Virheelliset käyttäjätunnukset")
-    userid = users.usermenuid()
-    count = programs.getprograms(userid)
-    program = programs.getheadlines(userid)
-    return render_template("usermenu.html", count=count, programs=program)
+    if request.method == "GET":
+        userid = users.usermenuid()
+        count = userprogram.getprograms(userid)
+        program = userprogram.getheadlinesandid(userid)
+        return render_template("usermenu.html", count=count, programs=program)
+    if request.method == "POST":
+        userid = users.usermenuid()
+        programid = request.form["program"]
+        userprogramid = userprogram.returnid(userid, programid)
+        return redirect("")
 
 
 @app.route("/login",methods=["GET", "POST"])
@@ -96,10 +102,31 @@ def programpic(id):
     response.headers.set("Content-Type","image/jpeg")
     return response
 
-@app.route("/usersprogram/<int:id>")
+@app.route("/usersprogram/<int:id>",methods=["GET", "POST"])
 def usersprogram(id):
-    #TO DO
-    return render_template("usersprogram.html", id=id, content=content, headline=headline, reps=reps, times=times, percent=percent)
+    if request.method == "GET":
+       userprogramid = id
+       programid = userprogram.returnprogramid(id)
+       content = programs.showprogram(programid)
+       headline = programs.showheadline(programid)
+       reps = progress.returnreps(id)
+       percent = progress.returnpercent(id)
+       times = progress.returntimes(id)
+       return render_template("usersprogram.html", userprogramid=userprogramid, content=content, headline=headline, reps=reps, times=times, percent=percent, picid=programid)
+    if request.method == "POST":
+       programid = userprogram.returnprogramid(id)
+       oldreps = progress.returnreps(id)
+       oldtimes = progress.returntimes(id)
+       totalreps = int(request.form["newreps"]) * int(request.form["newsets"])
+       desiredreps = programs.getreps(programid)
+       desiredtimes = programs.getreps(programid)
+       newreps = oldreps + totalreps
+       newtimes = oldtimes + 1
+       percent = newreps/desiredreps*100
+       if progress.updateprogress(id, percent, newreps, newtimes):
+           return redirect("/login")
+       else:
+           return render_template("error.html", message="Virhe edistyksen päivityksessä")
 
 @app.route("/createprogram",methods=["GET","POST"])
 def createprogram():
@@ -127,11 +154,14 @@ def createprogram():
         if programs.createprogram(headline,content,data,reps,times):
             userid = users.returnid(user)
             programid = programs.getid(headline, content)
-            if userprogram.createuserprogram(userid, programid):
-                userprogramid = userprogram.returnid(userid, programid)
-                if progress.createprogress(userprogramid):
-                    return redirect("/login")
-            return render_template("error.html", message="Virhe lisäyksessä")
         else:
-            return render_template("error.html", message="Virhe lisäyksessä")
+            return render_template("error.html", message="Ohjelman luominen epäonnistui")
+        if userprogram.createuserprogram(userid, programid):
+            userprogramid = userprogram.returnid(userid, programid)
+        else:
+            return render_template("error.html", message="Virheellinen käyttäjätunnus tai ohjelma")
+        if progress.createprogress(userprogramid):
+            return redirect("/login")
+        else:
+            return render_template("error.html", message="Virhe käyttäjän edistyksen luomisessa")
 

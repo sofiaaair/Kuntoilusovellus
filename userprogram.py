@@ -18,5 +18,17 @@ def returnid(userid, programid):
     result = db.session.execute(sql, {"userid":userid, "programid":programid})
     return result.fetchone()[0]
 
+def getprograms(userid):
+    sql = "SELECT COUNT(*) FROM user_program WHERE userid=:userid"
+    result = db.session.execute(sql, {"userid":userid})
+    return result.fetchone()[0]
 
+def getheadlinesandid(userid):
+    sql = "SELECT user_program.id, program.headline FROM user_program JOIN program ON program.id = user_program.programid WHERE user_program.userid=:userid"
+    result = db.session.execute(sql, {"userid":userid})
+    return result.fetchall()
 
+def returnprogramid(id):
+    sql = "SELECT programid FROM user_program WHERE id=:id"
+    result = db.session.execute(sql, {"id":id})
+    return result.fetchone()[0]
