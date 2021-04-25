@@ -1,23 +1,35 @@
 <!DOCTYPE html>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-<meta name='viewport' content='width=device-width, initial-scale=1'>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+<meta name="viewport" content="width=device-width, initial-scale=1!>
+</head>
 
-
-<div class="headline">
-  <h1> Kuntokerroin </h1>
+<body>
+<div class="container">
+  <div class="row">
+   <div class="headline">
+    <h1> Kuntokerroin </h1>
+    </div>
+   <div class="col align-self-center">
+    <div class="h-100 p-5 text-white bg-dark rounded-3">
+     <h2> Luo tunnus sovellukseen</h2>
+     <p> Syötä käyttäjätunnus ja salasana</p>
+     <form action="/signup" method="POST" onsubmit="return check(this)">
+     <p>Tunnus:<br>
+     <input type="text" name="username"></p>
+     <p>Salasana:<br>
+     <input type="password" name="password"></p>
+     <input type="submit" value="Luo tunnus"></p>
+     <a href="/">Takaisin etusivulle</a>
+    </div>
+  </div>
+ </div>
 </div>
-
-  <h2> Luo tunnus sovellukseen</h2>
-  <p> Syötä käyttäjätunnus ja salasana</p>
-<form action="/signup" method="POST" onsubmit="return check(this)">
-<p>Tunnus:<br>
-<input type="text" name="username"></p>
-<p>Salasana:<br>
-<input type="password" name="password"></p>
-<input type="submit" value="Luo tunnus"></p>
-<a href="/">Takaisin etusivulle</a>
 </form>
-
+</body>
+</html>
 
 <script>
 function check(form) {
