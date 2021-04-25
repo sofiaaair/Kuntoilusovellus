@@ -4,13 +4,19 @@ Sovellus löytyy herokusta osoitteesta:
 
 https://kuntokerroin.herokuapp.com/
 
+Sovellusta voi testata seuraavasti:
+
+* Peruskäyttäjänä: Tunnus: meika, Salasana: mandoliini
+
+* Ylläpitäjän ominaisuuksia voi tarkastella tunnuksella: paa ja salasanalla: kayttaja
+
 Sovelluksessa on toteutettuna tällä hetkellä:
 
 * Käyttäjän sisään ja uloskirjaus, tunnuksen luonti
 
-* Käyttäjä näkee listauksen omista kunto-ohjelmista, suoritusominaisuus on kesken
+* Käyttäjä näkee listauksen omista kunto-ohjelmista ja voi lisätä oman suorituskertansa
 
-* Ylläpitäjä voi lisätä kunto-ohjelmia
+* Ylläpitäjä voi lisätä kunto-ohjelmia, muokkausominaisuus vielä kesken.
 
 
 <h2> Kaikki tulevaisuuden toiminnot </h2>
