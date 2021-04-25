@@ -2,14 +2,14 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 
-<body>
+
 <div class="headline">
   <h1> Kuntokerroin </h1>
 </div>
 
   <h2> Luo tunnus sovellukseen</h2>
   <p> Syötä käyttäjätunnus ja salasana</p>
-<form action="/signup" method="POST">
+<form action="/signup" method="POST" onsubmit="return check(this)">
 <p>Tunnus:<br>
 <input type="text" name="username"></p>
 <p>Salasana:<br>
@@ -18,7 +18,21 @@
 <a href="/">Takaisin etusivulle</a>
 </form>
 
-</body>
+
+<script>
+function check(form) {
+    if (form.username.value.length < 3) {
+        alert("Syötetty käyttäjätunnus on liian lyhyt");
+        return false;
+    }
+    if (form.password.value.length < 6) {
+        alert("Syötetty salasana on liian lyhyt");
+        return false;
+    }
+    return true;
+}
+</script>
+
 
 
 

@@ -8,7 +8,7 @@
 </div>
   <h2> Tervetuloa sovellukseen </h2>
   <p> Kirjaudu sisään tai luo käyttäjä</p>
-<form action="/login" method="POST">
+<form action="/login" method="POST" onsubmit="return check(this)">
 <p>Tunnus:<br>
 <input type="text" name="username"></p>
 <p>Salasana:<br>
@@ -16,5 +16,19 @@
 <input type="submit" value="Kirjaudu">
 <a href="/signup">Luo tunnus</a>
 </form>
+
+<script>
+function check(form) {
+    if (form.username.value.length < 3 || form.username.value.length > 20 ) {
+        alert("Käyttäjätunnuksen tulee olla 3-20 merkkiä pitkä");
+        return false;
+    }
+    if (form.password.value.lenght < 6 || form.password.value.length > 20) {
+        alert("Salasanan tulee olla 6-20 merkkiä pitkä");
+        return false;
+    }
+    return true;
+}
+</script>
 
 </body>

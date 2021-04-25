@@ -1,4 +1,4 @@
-<form action="/createprogram" method="POST" enctype="multipart/form-data">
+<form action="/createprogram" method="POST" enctype="multipart/form-data" onsubmit="return check(this)">
 <p>Ohjelman otsikko:<br>
 <input type="text" name="headline"></p>
 <p>Ohjelman kuvaus:<br>
@@ -9,6 +9,13 @@
 <input type="text" name="sets"</p>
 <p> Treenikertojen määrä:<br>
 <input type="text" name="times"></p>
+<p> Aseta treeni haluamallesi käyttäjälle:<br>
+  <label for="users">Valitse käyttäjä:</label>
+  <select id="user" name="user">
+{% for user in users %}
+<option value="{{ user[0] }}"> {{ user[0] }} </option>
+{% endfor %}
+  </select>
 <p>Kuva:<br>
 <input type="file" name="file">
 <input type="submit" value="Luo ohjelma">
@@ -17,12 +24,32 @@
 
 <script>
 function check(form) {
-    if (form.headline.value.length > 100) {
-        alert("Otsikko on liian pitkä");
+    if (form.headline.value.length > 100 || form.headline.value.length < 4) {
+        alert("Otsikon tulee olla 4-100 merkkiä pitkä");
         return false;
     }
-    if (form.content.value.length > 10000) {
-        alert("Kuvaus on liian pitkä");
+    if (form.content.value.length > 10000 || form.content.value.length < 10) {
+        alert("Kuvauksen tulee olla 10-10000 merkkiä pitkä");
+        return false;
+    }
+    if (form.reps.value  > 50 || form.reps.value < 1) {
+        alert("Toistojen määrä tulee olla välillä 1-50");
+        return false;
+    }
+    if (form.sets.value > 15 || form.sets.value < 1) {
+        alert("Settien määrän tulee olla 1-15");
+        return false;
+    }
+    if (form.times.value < 1 || form.times.value > 10) {
+        alert("Treenikertojen määrä tulee olla välillä 1-10");
+        return false;
+    }
+    if (form.user.value.length < 1) {
+        alert("Aseta treenille käyttäjä");
+        return false;
+    }
+    if (form.file.files.length == 0) {
+        alert("Aseta kuva");
         return false;
     }
     return true;
