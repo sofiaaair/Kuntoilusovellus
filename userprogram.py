@@ -40,3 +40,11 @@ def returnallow(userid, id):
         return True
     else:
         return False
+
+def returnpictureallow(userid, programid):
+    sql = "SELECT id FROM user_program WHERE userid=:userid AND programid=:programid"
+    result = db.session.execute(sql, {"userid":userid, "programid":programid})
+    if result.fetchone() != None:
+        return True
+    else:
+        return False

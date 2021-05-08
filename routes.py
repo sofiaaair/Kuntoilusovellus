@@ -13,6 +13,8 @@ def index():
 
 @app.route("/adminmenu")
 def adminmenu():
+    if not users.islogin():
+        return redirect("/")
     allow = False
     if users.is_admin():
         allow = True
@@ -28,7 +30,7 @@ def usermenu():
     if users.islogin():
         allow = True
     if not allow:
-        return render_template("/")
+        return redirect("/")
     if request.method == "GET":
         userid = users.usermenuid()
         count = userprogram.getprograms(userid)
@@ -114,6 +116,14 @@ def program(id):
 
 @app.route("/programpic/<int:id>")
 def programpic(id):
+    if not users.islogin():
+        return redirect("/")
+    allow = False
+    userid = users.usermenuid()
+    if userprogram.returnpictureallow(userid, id):
+        allow = True
+    if not allow:
+        return redirect("/")
     data = programs.showpicture(id)
     response = make_response(bytes(data))
     response.headers.set("Content-Type","image/jpeg")
