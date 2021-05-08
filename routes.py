@@ -134,27 +134,30 @@ def programpic(id):
 @app.route("/usersprogram/<int:id>",methods=["GET", "POST"])
 def usersprogram(id):
     if request.method == "GET":
-       if not users.islogin():
-          return redirect("/") 
-       allow = False
-       if users.is_admin():
-           allow = True
-       userid = users.usermenuid()
-       if userprogram.returnallow(userid, id):
-           allow = True
-       if not allow:
-           return redirect("/usermenu")
-       userprogramid = id
-       programid = userprogram.returnprogramid(id)
-       content = programs.showprogram(programid)
-       headline = programs.showheadline(programid)
-       reps = progress.returnreps(id)
-       percent = progress.returnpercent(id)
-       times = progress.returntimes(id)
-       message = " "
-       if percent == 100:
-          message = "Olet suorittanut ohjelman loppuun!"
-       return render_template("usersprogram.html", userprogramid=userprogramid, content=content, headline=headline, reps=reps, times=times, percent=percent, picid=programid, message=message)
+        if not users.islogin():
+            return redirect("/") 
+        allow = False
+        if users.is_admin():
+            allow = True
+        userid = users.usermenuid()
+        if userprogram.returnallow(userid, id):
+            allow = True
+        if not allow:
+            return redirect("/usermenu")
+        try:
+            userprogramid = id
+            programid = userprogram.returnprogramid(id)
+            content = programs.showprogram(programid)
+            headline = programs.showheadline(programid)
+            reps = progress.returnreps(id)
+            percent = progress.returnpercent(id)
+            times = progress.returntimes(id)
+            message = " "
+            if percent == 100:
+                message = "Olet suorittanut ohjelman loppuun!"
+            return render_template("usersprogram.html", userprogramid=userprogramid, content=content, headline=headline, reps=reps, times=times, percent=percent, picid=programid, message=message)
+        except:
+            return render_template("error.html", message="Tapahtui virhe ohjelmaa haettaessa")
     if request.method == "POST":
        if session["csrf_token"] != request.form["csrf_token"]:
            abort(403)
