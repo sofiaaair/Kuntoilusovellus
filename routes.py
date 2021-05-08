@@ -28,7 +28,7 @@ def usermenu():
     if users.islogin():
         allow = True
     if not allow:
-        return render_template("error.html", message="Virheelliset käyttäjätunnukset")
+        return render_template("/")
     if request.method == "GET":
         userid = users.usermenuid()
         count = userprogram.getprograms(userid)
@@ -38,7 +38,7 @@ def usermenu():
         userid = users.usermenuid()
         programid = request.form["program"]
         userprogramid = userprogram.returnid(userid, programid)
-        return redirect("")
+        return redirect("/")
 
 
 @app.route("/login",methods=["GET", "POST"])
@@ -80,12 +80,29 @@ def signupost():
         if len(password) < 6 or len(password) > 20:
             return render_template("error.html", message="Salasanan on oltava 6-20 merkkiä pitkä")
         if users.signuppost(username, password):
+            userid = users.returnid(username)
+            programid = programs.getfirstprogramid()
+            if userprogram.createuserprogram(userid, programid):
+                id = userprogram.returnid(userid, programid)
+                if  progress.createprogress(id):
+                    return redirect("/")
+                else:
+                    return render_template("error.html", message="Virhe luotaessa edistystoiminnallisuutta kunto-ohjelmallesi")
+            else:
+               return render_template("error.html", message="Ensimmäisen kunto-ohjelmasi luominen epäonnistui")
             return redirect("/")
         else:
             return render_template("error.html", message="Tunnuksen luominen epäonnistui")
 
 @app.route("/program/<int:id>")
 def program(id):
+    if not users.islogin():
+        return redirect("/") 
+    allow = False
+    if users.is_admin():
+        allow = True
+    if not allow:
+        return redirect("/") 
     exist = False
     if programs.ifexist(id):
         exist = True
@@ -105,6 +122,16 @@ def programpic(id):
 @app.route("/usersprogram/<int:id>",methods=["GET", "POST"])
 def usersprogram(id):
     if request.method == "GET":
+       if not users.islogin():
+          return redirect("/") 
+       allow = False
+       if users.is_admin():
+           allow = True
+       userid = users.usermenuid()
+       if userprogram.returnallow(userid, id):
+           allow = True
+       if not allow:
+           return redirect("/usermenu")
        userprogramid = id
        programid = userprogram.returnprogramid(id)
        content = programs.showprogram(programid)
@@ -112,7 +139,10 @@ def usersprogram(id):
        reps = progress.returnreps(id)
        percent = progress.returnpercent(id)
        times = progress.returntimes(id)
-       return render_template("usersprogram.html", userprogramid=userprogramid, content=content, headline=headline, reps=reps, times=times, percent=percent, picid=programid)
+       message = " "
+       if percent == 100:
+          message = "Olet suorittanut ohjelman loppuun!"
+       return render_template("usersprogram.html", userprogramid=userprogramid, content=content, headline=headline, reps=reps, times=times, percent=percent, picid=programid, message=message)
     if request.method == "POST":
        programid = userprogram.returnprogramid(id)
        oldreps = progress.returnreps(id)
@@ -123,19 +153,33 @@ def usersprogram(id):
        newreps = oldreps + totalreps
        newtimes = oldtimes + 1
        percent = newreps/desiredreps*100
+       if percent >= 100:
+          percent = 100
        if progress.updateprogress(id, percent, newreps, newtimes):
-           return redirect("/login")
+           userprogramid = id
+           programid = userprogram.returnprogramid(id)
+           content = programs.showprogram(programid)
+           headline = programs.showheadline(programid)
+           reps = progress.returnreps(id)
+           percent = progress.returnpercent(id)
+           times = progress.returntimes(id)
+           message = " "
+           if percent == 100:
+              message = "Olet suorittanut ohjelman loppuun!"
+           return render_template("usersprogram.html", userprogramid=userprogramid, content=content, headline=headline, reps=reps, times=times, percent=percent, picid=programid, message=message)
        else:
            return render_template("error.html", message="Virhe edistyksen päivityksessä")
 
 @app.route("/createprogram",methods=["GET","POST"])
 def createprogram():
     if request.method == "GET":
+        if not users.islogin():
+            return redirect("/") 
         allow = False
         if users.is_admin():
             allow = True
         if not allow:
-            return render_template("error.html", message="Sinulla ei ole oikeutta nähdä sivua")
+            return redirect("/")
         userstosend = users.returnusernames()
         return render_template("createprograml.html", users=userstosend)
     if request.method == "POST":

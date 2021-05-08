@@ -32,3 +32,11 @@ def returnprogramid(id):
     sql = "SELECT programid FROM user_program WHERE id=:id"
     result = db.session.execute(sql, {"id":id})
     return result.fetchone()[0]
+
+def returnallow(userid, id):
+    sql = "SELECT id FROM user_program WHERE id=:id AND userid=:userid"
+    result = db.session.execute(sql, {"id":id, "userid":userid})
+    if result.fetchone() != None:
+        return True
+    else:
+        return False

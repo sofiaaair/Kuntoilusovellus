@@ -21,7 +21,12 @@ def login(username, password):
 def islogin():
     if session["username"] == None:
         return False
-    return True
+    sql = "SELECT id FROM users WHERE username=:username"
+    result = db.session.execute(sql, {"username":session["username"]})
+    if result.fetchone() != None:
+        return True
+    else:
+        return False
 
 def signuppost(username, password):
     hash_value = generate_password_hash(password)

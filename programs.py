@@ -67,3 +67,7 @@ def gettimes(id):
     result = db.session.execute(sql, {"id":id})
     return result.fetchone()[0]
 
+def getfirstprogramid():
+    sql = "SELECT MIN(id) FROM program GROUP BY id"
+    result = db.session.execute(sql)
+    return result.fetchone()[0]
