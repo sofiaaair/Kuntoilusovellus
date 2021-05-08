@@ -23,9 +23,10 @@
     </div>
     <p> Toistoja tähän asti: {{ reps }} </p>
     <p> Tehtyjä treenejä: {{ times }} </p>
+    <p> {{ message }} </p>
     </div>
     <div class="col order-last">
-    <form action="/userprogram/{{ userprogramid }}" method="POST" onsubmit="return check(this)">
+    <form action="/usersprogram/{{ userprogramid }}" method="POST" onsubmit="return check(this)">
     <h2> Merkitse treenikerta: </h2>
     <p> Tämän treenin toistot: </p>
     <input type="text" name="newreps"</p>
