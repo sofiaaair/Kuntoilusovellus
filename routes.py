@@ -236,3 +236,55 @@ def createprogram():
         else:
             return render_template("error.html", message="Virhe käyttäjän edistyksen luomisessa")
 
+@app.route("/editprogram", methods=["GET", "POST"])
+def editprogram():
+    if request.method == "GET":
+        if not users.islogin():
+            return redirect("/")
+        allow = False
+        if users.is_admin():
+            allow = True
+        if not allow:
+            return redirect("/")
+        program = userprogram.getedituserprograms()
+        programlist = programs.getallprograms()
+        usernamelist = users.returnusernames()
+        return render_template("editprogram.html", programs=program, programlist=programlist, usernamelist=usernamelist )
+    if request.method == "POST":
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
+        id = int(request.form["program"])
+        if userprogram.setinvisible(id):
+            return redirect("/editprogram")
+        else:
+            return render_template("error.html", message="Virhe ohjelmaa piilotettaessa")
+
+
+@app.route("/edituser", methods=["GET", "POST"])
+def edituser():
+    if request.method == "GET":
+        if not users.islogin():
+            return redirect("/")
+        allow = False
+        if users.is_admin():
+            allow = True
+        if not allow:
+            return redirect("/")
+        program = userprogram.getedituserprograms()
+        programlist = programs.getallprograms()
+        usernamelist = users.returnusernames()
+        return render_template("editprogram.html", programs=program, programlist=programlist, usernamelist=usernamelist)
+    if request.method == "POST":
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
+        username = request.form["user"]
+        programid = request.form["program"]
+        userid = users.returnid(username)
+        if userprogram.createuserprogram(userid, programid):
+            id = userprogram.returnid(userid, programid)
+            if progress.createprogress(id):
+                return redirect("/edituser")
+            else:
+                return render_template("error.html", message="Virhe lisätessä edistyksenseurantaa ohjelmalle")
+        else:
+            return render_template("error.html", message="Virhe lisätessä ohjelmaa käyttäjälle")

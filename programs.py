@@ -71,3 +71,4 @@ def getfirstprogramid():
     sql = "SELECT MIN(id) FROM program GROUP BY id"
     result = db.session.execute(sql)
     return result.fetchone()[0]
+

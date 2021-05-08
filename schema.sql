@@ -27,7 +27,7 @@ CREATE TABLE user_program (
     id SERIAL PRIMARY KEY,
     userid INTEGER references users,
     programid INTEGER references program,
-    progressid INTEGER references progress
+    visible INTEGER
 );
 
 
