@@ -19,6 +19,7 @@
 <p>Kuva:<br>
 <input type="file" name="file">
 <input type="submit" value="Luo ohjelma">
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 <a href="/login">Etusivulle</a>
 </form>
 

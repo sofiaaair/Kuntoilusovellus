@@ -119,6 +119,8 @@ def programpic(id):
     if not users.islogin():
         return redirect("/")
     allow = False
+    if users.is_admin():
+        allow = True
     userid = users.usermenuid()
     if userprogram.returnpictureallow(userid, id):
         allow = True
@@ -154,6 +156,8 @@ def usersprogram(id):
           message = "Olet suorittanut ohjelman loppuun!"
        return render_template("usersprogram.html", userprogramid=userprogramid, content=content, headline=headline, reps=reps, times=times, percent=percent, picid=programid, message=message)
     if request.method == "POST":
+       if session["csrf_token"] != request.form["csrf_token"]:
+           abort(403)
        programid = userprogram.returnprogramid(id)
        oldreps = progress.returnreps(id)
        oldtimes = progress.returntimes(id)
@@ -193,6 +197,8 @@ def createprogram():
         userstosend = users.returnusernames()
         return render_template("createprograml.html", users=userstosend)
     if request.method == "POST":
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
         file = request.files["file"]
         headline = request.form["headline"]
         content = request.form["content"]
