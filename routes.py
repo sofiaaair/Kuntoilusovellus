@@ -9,7 +9,12 @@ from flask import render_template, redirect, request, session, make_response
 
 @app.route("/")
 def index():
+    if not users.islogin():
         return render_template("index.html")
+    else:
+        if users.is_admin():
+            return redirect("/adminmenu")
+        return redirect("/usermenu")
 
 @app.route("/adminmenu")
 def adminmenu():
@@ -126,10 +131,13 @@ def programpic(id):
         allow = True
     if not allow:
         return redirect("/")
-    data = programs.showpicture(id)
-    response = make_response(bytes(data))
-    response.headers.set("Content-Type","image/jpeg")
-    return response
+    try:
+        data = programs.showpicture(id)
+        response = make_response(bytes(data))
+        response.headers.set("Content-Type","image/jpeg")
+        return response
+    except:
+        return redirect("/")
 
 @app.route("/usersprogram/<int:id>",methods=["GET", "POST"])
 def usersprogram(id):

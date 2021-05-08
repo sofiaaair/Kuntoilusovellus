@@ -19,13 +19,12 @@ def login(username, password):
             return False
 
 def islogin():
-    if session["username"] == None:
-        return False
-    sql = "SELECT id FROM users WHERE username=:username"
-    result = db.session.execute(sql, {"username":session["username"]})
-    if result.fetchone() != None:
-        return True
-    else:
+    try:
+        if session["username"] == None:
+            return False
+        else:
+            return True
+    except:
         return False
 
 def signuppost(username, password):
