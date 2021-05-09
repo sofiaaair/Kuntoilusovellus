@@ -62,7 +62,7 @@ function check(form) {
         alert("Kuvauksen tulee olla 10-10000 merkkiä pitkä");
         return false;
     }
-/*    if (!Number.isInteger(Number(form.reps.value))) {
+    if (!Number.isInteger(Number(form.reps.value))) {
         alert("Toistojen tulee olla numeroita");
         return false;
     }
@@ -73,7 +73,7 @@ function check(form) {
     if (!Number.isInteger(Number(form.times.value))) {
         alert("Treenikertojen tulee olla numeroita");
         return false;
-    }*/
+    }
     if (form.reps.value  > 50 || form.reps.value < 1) {
         alert("Toistojen määrä tulee olla välillä 1-50");
         return false;
