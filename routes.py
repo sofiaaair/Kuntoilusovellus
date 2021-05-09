@@ -178,8 +178,10 @@ def usersprogram(id):
        newreps = oldreps + totalreps
        newtimes = oldtimes + 1
        percent = newreps/desiredreps*100
-       if percent >= 100:
-          percent = 100
+       if percent >100:
+          newreps = 0
+          newtimes=0
+          percent = 0
        if progress.updateprogress(id, percent, newreps, newtimes):
            userprogramid = id
            programid = userprogram.returnprogramid(id)
@@ -210,6 +212,12 @@ def createprogram():
     if request.method == "POST":
         if session["csrf_token"] != request.form["csrf_token"]:
             abort(403)
+        try:
+           int(request.form["sets"])
+           int(request.form["times"])
+           int(request.form["reps"])
+        except ValueError:
+            return render_template("error.html", message="Virheellinen syöttö kentässä toisto, sarja, tai treenkerrat, anna kyseiset kentät lukuina")
         file = request.files["file"]
         headline = request.form["headline"]
         content = request.form["content"]
@@ -234,7 +242,7 @@ def createprogram():
         if progress.createprogress(userprogramid):
             return redirect("/login")
         else:
-            return render_template("error.html", message="Virhe käyttäjän edistyksen luomisessa")
+            return render_template("error.html", message="Virhe käyttäjän edistystoimintoa luomisessa")
 
 @app.route("/editprogram", methods=["GET", "POST"])
 def editprogram():
