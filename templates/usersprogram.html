@@ -8,24 +8,39 @@
   </head>
 <body>
 <div class="container">
-  <h2>{{ headline }}</h2>
+  <h1>{{ headline }}</h1>
   <div class="row">
+    <div class="h-100 p-5 bg-dark rounded-3">
     <div class="col order-first">
-      <h2> Suoritusohjeet</h2>
+     <div class="h-200 p-2 bg-light rounded-3">
+     <div class="col">
+    <h2>Suoritusohjeet</h2>
       <p> {{ content }}
       </p>
-      <img src="/programpic/{{ picid }}"> 
+      <img src="/programpic/{{ picid }}">
     </div>
+    </div>
+    </div>
+    </div>
+    <div class="h-100 p-5 bg-secondary rounded-3">
     <div class="col">
+     <div class="h-200 p-2 bg-light rounded-3">
+     <div class="col">
     <h2> Oma edistyminen:</h2>
     <div class="progress">
-      <div class="progress-bar" role="progressbar" style="width: {{ percent }}%;" aria-valuenow="{{ percent }}" aria-valuemin="0" aria-valuemax="100"> {{ percent }} %</div>
+      <div class="progress-bar bg-danger" role="progressbar" style="width: {{ percent }}%;" aria-valuenow="{{ percent }}" aria-valuemin="0" aria-valuemax="100"> {{ percent }} %</div>
     </div>
     <p> Toistoja tähän asti: {{ reps }} </p>
     <p> Tehtyjä treenejä: {{ times }} </p>
     <p> {{ message }} </p>
     </div>
+    </div>
+    </div>
+    </div>
+    <div class="h-100 p-5 bg-dark rounded-3">
     <div class="col order-last">
+     <div class="h-200 p-2 bg-light rounded-3">
+     <div class="col">
     <form action="/usersprogram/{{ userprogramid }}" method="POST" onsubmit="return check(this)">
     <h2> Merkitse treenikerta: </h2>
     <p> Tämän treenin toistot: </p>
@@ -36,9 +51,14 @@
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     </form>
     </div>
+    </div>
+    </div>
+   </div>
   </div>
-<div>
-<a href="/login">Takaisin</a>
+<button type="button" class="btn-outline-secondary btn-lg">
+<a href="/login" class="link-danger">Takaisin</a></button>
+
+</div>
 </body>
 {% endif %}
 </html>

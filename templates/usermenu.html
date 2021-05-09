@@ -10,31 +10,52 @@
 <div class="container">
   <div class="row">
     <title> Kuntokerroin - {% block title %}{% endblock %} </title>
+    <div class="h-100 p-5 text-white bg-dark rounded-3">
     <div class="col">  
     <h2>Tervetuloa  {{ session.username }} !</h2>
     </div>
-  </div>
-  <div class="row">
-    <div class="col">
-     Omat ohjelmasi: {{ count }}
     </div>
   </div>
   <div class="row">
+    <div class="h-100 p-5 bg-secondary rounded-3">
     <div class="col">
+     <div class="h-200 p-2 bg-light rounded-3">
+     <div class="col">
+     Omat ohjelmasi: {{ count }}
+     </div>
+     </div>
+    </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="h-100 p-5 text-white bg-dark rounded-3">
+    <div class="col">
+     <div class="h-200 p-2 bg-light rounded-3">
+     <div class="col">
       <form action="/usermenu" method="POST">
       {% for program in programs %}
-      <button type="button" class"btn btn-link"> 
-      <a href="/usersprogram/{{ program[0] }}">{{ program[1] }}</a></button>
+      <button type="button" class="btn btn-outline-danger"> 
+      <a href="/usersprogram/{{ program[0] }}" class="link-danger">{{ program[1] }}</a></button>
       {% endfor %}
       </form>
     </div>
+    </div>
+    </div>
+    </div>
   </div>
-  <div class"row">
+  <div class="row">
+    <div class="h-100 p-5 text-white bg-secondary rounded-3">
    <div class="col">
-   <a href="/logout">Kirjaudu ulos</a>
+     <div class="h-200 p-2 bg-light rounded-3">
+     <div class="col">
+   <button type="button" class="btn btn-outline-danger">
+   <a href="/logout" class="link-danger">Kirjaudu ulos</a></button>
    </div>
-  </div>
-</div>  
+   </div>
+   </div>
+   </div>
+  </div>  
 {% endif %}
+</div>
 </body>
 </html>
